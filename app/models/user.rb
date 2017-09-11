@@ -1,7 +1,8 @@
 class User < ApplicationRecord
 
-    attr_accessor :remember_token
-    before_save { email.downcase! }
+    attr_accessor   :remember_token, :activation_token
+    before_save     { email.downcase! }
+    before_create   :create_activation_digest
     VALID_EMAIL_REGAX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
     validates :name,    presence: true, length: {maximum: 50,   minimum: 2}
     validates :email,   presence: true, length: {maximum: 255,  minimum: 2}
@@ -32,4 +33,16 @@ class User < ApplicationRecord
     def forget
         update_attribute(:remember_digest, nil)
     end
+    
+    
+    private 
+    
+        def downcase_email
+            self.email = email.downcase
+        end
+        
+        def create_activation_digest
+            self.activation_token   = User.new_token
+            self.activation_digest  = User.digest(activation_token)
+        end
 end
