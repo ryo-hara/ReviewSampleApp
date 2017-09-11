@@ -198,3 +198,15 @@ input {
   width: auto;
   margin-left: 0;
 }
+
+/* Users index */
+
+.user{
+  list-style: none;
+  margin: 0;
+  li{
+    overflow: auto;
+    padding: 10px 0;
+    boeder-bottom: 1px solid $gray-lighter;
+  }
+}
